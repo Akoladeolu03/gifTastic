@@ -49,11 +49,15 @@ $(document).ready(function () {
                         var rating = results[i].rating;
                        
                         var p = $("<p>").text("Rating: " + rating);
-                    
+                        var animated = results[i].images.fixed_height.url;
+                        var still = results[i].images.fixed_height_still.url;
                         var personImage = $("<img>");
                         
-                        personImage.attr("src", results[i].images.fixed_height.url);
-                        
+                        personImage.attr("src",still);
+                        personImage.attr("data-still",still);
+                        personImage.attr("data-animated", animated);
+                        personImage.attr("data-state","still");
+                        personImage.addClass("imgClass");
                         gifDiv.append(p);
                         gifDiv.append(personImage);
                         
@@ -62,6 +66,21 @@ $(document).ready(function () {
                 }
             });
     }
+    $(document).on("click", ".imgClass", function () {
+        console.log($(this));
+        var state = $(this).attr("data-state");
+        if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animated"));
+            $(this).attr("data-state", "animate");
+        }
+        else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+        }
+    })
+
+
+
 
 
 })
